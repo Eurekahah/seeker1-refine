@@ -30,3 +30,26 @@
 *.exe
 *.out
 *.app
+
+# Local build, test and capture artifacts
+**/__pycache__/
+*.pyc
+*.log
+
+# image_undistort build outputs
+ref/image_undistort_src/image_undistort/.obj-*/
+ref/image_undistort_src/image_undistort/debian/.debhelper/
+ref/image_undistort_src/image_undistort/debian/ros-noetic-image-undistort/
+
+# Vendor reference archives and PDFs
+ref/*.zip
+ref/*.gz
+ref/*.pdf
+
+# Local calibration experiments
+calib/test1/
+calib/check2/
+calib/quality_check/
+calib/deploy/
+ref/image_undistort_src/image_undistort/debian/files
+ref/image_undistort_src/image_undistort/debian/*.substvars

@@ -1,0 +1,142 @@
+RK3588S-4P模块简易教程
+
+
+
+
+                   1
+                  免责声明
+本文档提供有关深圳市视元智能科技有限公司的产品信息，未以明示 或暗示，或
+以禁止发言或其他方式授予任何知识产权许可。本文档所陈述 的产品文本及相关
+软件版权均属深圳市视元智能科技有限公司所有，其产 权受国家法律绝对保护，
+未经本公司授权，其他公司、单位、代理商及个 人不得非法使用和拷贝，否则追
+究相关责任。深圳市视元智能科技有限公 司保留在任何时候修订本用户手册且不
+需要通知的权利。
+在订购产品之前，请您与深圳市视元智能科技有限公司联系，获取最 新的规格说
+明。
+深圳市视元智能科技有限公司保留所有权利。
+
+
+
+                  版本历史
+版本      日期             更改点
+V1.0 2025/11/17     产品发布，创建文档
+
+
+
+
+                                   2
+1.   概况
+ ● 摄像头：4鱼眼摄像头，全局快门，1088x1280@20fps，灰度，fov：206x206，摄像头曝光同步
+   （硬件同步触发，精度是ns级别），AE同步。
+ ● IMU：200HZ
+ ● 编码：MJPEG硬件编码
+ ● 功耗：<10W 电压12V，支持到3S电池。
+ ● 屏幕：接上HDMI屏幕，然后当成电脑使用即可。
+
+
+
+2.   硬件
+
+
+
+
+                                                            3
+注意：
+ ● XH2.54电源接口正负极不能接错，不然会烧毁。锂电池供电只能2S-3S，其他电池需要降压模块
+   将电压转换为12V，否则容易损坏。
+
+3.   通信
+  seekser模块可以使用usb和wifi和主机进行通信方便调试。其中usb可以同时使用adb和rndis。需
+要先接上电源，等待差不多10s以上再接USB线，这个问题后续会解决。
+3.1.   adb
+ adb shell
+    默认进入root模式并且是sh，可以在里面运行bash或者login root。密码为1，如果密码不正确，用
+adb shell然后passwd修改密码。
+                                                            4
+如果出现错误：
+ error: insufficient permissions for device: user in plugdev group; are your udev rules wrong?
+ See [http://developer.android.com/tools/device.html] for more information
+表明当前用户不在plugdev组，可以：
+  a. 运行：
+ sudo adb shell
+  b. 或者：
+ sudo bash -c 'echo SUBSYSTEM==\"usb\",ATTRS{idVendor}==\"2207\",\
+ MODE=\"0666\",GROUP=\"plugdev\",SYMLINK+=\"android\",\
+ SYMLINK+=\"android_adb\" >> /etc/udev/rules.d/90-android.rules'
+  c. 或者：
+ sudo usermod -a -G plugdev $(whoami)
+建议用方法 b或c 然后重新连接USB即可。
+3.2.   RNDIS（USB网络）
+    rndis即usb网络，使用iperf进行速度测试可以达到0.5Gbps，seeker omni模块的IP地址为
+10.42.0.2，因此usb网络连接PC需要配置如下：
+3.2.1.   ubuntu配置
+    seeker模块的网络配置路径在：/etc/network/interfaces.d/usb0
+ allow-hotplug usb0
+ iface usb0 inet static
+ address 10.42.0.2
+ netmask 255.255.255.0
+ gatway 0.0.0.0
+ dns-nameservers 8.8.8.8
+    即板子的usb网络ip地址为10.42.0.2，pc上面可以配置ip地址为10.42.0.1使用。
+将seeker模块上电，和PC之间使用USB连接，稍等一会大约11s后，PC打开Settings，在USB Ethernet
+右侧点击设置
+
+                                                                                                 5
+配置为Shared to other computers：
+
+
+
+
+   或者配置为静态IP：
+
+
+
+
+                                6
+  这里建议配置为Shared to other computer，开发板可以共享PC的网络连接，进行USB网络反向共
+享，使用ssh root@10.42.0.2进行登录，密码为1。
+  此时开发板如果运行sudo dhclient usb0（注意运行这个命令后，开发板的IP地址可能发生变化，
+可以使用adb shell登录后ifconfig -a查看IP地址），此时开发板可以进行网络连接。
+3.2.2.   windows配置
+如图所示：
+
+
+
+
+                                                          7
+然后可以ssh orangepi@10.42.0.2登录模块
+或ssh root@10.42.0.2
+密码都是1
+3.3.   wifi
+wifi接口位置请查看 [2.硬件]
+ 命令                                                 说明
+ ifconfig -a                                        列出网络设备
+ nmcli dev wifi list                                列出附近的wifi
+ sudo nmcli dev wifi rescan                         重新扫描
+ sudo nmcli dev wifi connect WIFI名称 password WIFI   连接指定的WIFI
+ 密码
+ nmcli connection delete WIFI名称                     忘记WIFI名称
+ nmcli connection                                   查看保存的WIFI
+
+4.   软件
+                                                                8
+                                                    Plain Text
+ 1   先切root模式：
+ 2   su然后密码1
+ 3
+ 4   source /opt/ros/noetic/setup.bash
+ 5   运行 个摄像头：
+        4
+ 6   roslaunch seeker_cam_bridge test_4cam.launch
+ 7   运行 ：
+        IMU
+ 8   roslaunch seeker_sensors imu.launch
+ 9
+10   其他终端里面：
+11   使用rqt_image_view或rviz查看图像，使用rostopic工具查看imu。
+
+
+
+
+                                                                 9
+

@@ -1,0 +1,17 @@
+{
+  "dictionary": "DICT_4X4_50",
+  "squares_x": 7,
+  "squares_y": 5,
+  "square_length_m": 0.05,
+  "marker_length_m": 0.0375,
+  "margin_m": 0.0,
+  "dpi": 300.0,
+  "image_px": [
+    4134,
+    2953
+  ],
+  "physical_size_m": [
+    0.35001,
+    0.25002
+  ]
+}

@@ -1,0 +1,123 @@
+<launch>
+
+<arg name="scale" default="1.0" />
+<arg name="calib_path" default="/media/higgs/31860fcb-0444-4b84-8439-adcd7e5a4f50/bag/a_2023-03-28-01-59-48-camchain-imucam.yaml"/>
+<!-- <arg name="calib_path" default="/home/vslam/catkin_ws_rkaiq3/src/a_2023-03-28-01-59-48-camchain-imucam.yaml"/> -->
+
+  <node name="image_undistort_node_0" pkg="image_undistort" type="image_undistort_node" output="screen" launch-prefix="taskset -c 4-5">
+    <param name="input_camera_namespace" value="cam0"/>
+    <param name="output_camera_namespace" value="cam4"/>
+    <param name="input_camera_info_from_ros_params" value = "true"/>
+    <param name="scale" value="$(arg scale)"/>
+    <param name="process_image" value="1"/>
+    <param name="output_camera_info_source" value="match_input"/>
+    <param name="output_camera_info_source" value="ros_params"/>
+    <rosparam file="$(arg calib_path)"/>
+    <remap from="input/image" to="/stereo/left/image_raw"/>
+    <remap from="input/image" to="/stereo/left/image_raw"/>
+    <remap from="output/image" to="/cam0/left/image_raw"/>
+  </node>
+
+  <node name="image_undistort_node_1" pkg="image_undistort" type="image_undistort_node" output="screen" launch-prefix="taskset -c 4-5">
+    <param name="input_camera_namespace" value="cam0"/>
+    <param name="output_camera_namespace" value="cam5"/>
+    <param name="input_camera_info_from_ros_params" value = "true"/>
+    <param name="scale" value="$(arg scale)"/>
+    <param name="process_image" value="1"/>
+    <param name="output_camera_info_source" value="match_input"/>
+    <param name="output_camera_info_source" value="ros_params"/>
+    <rosparam file="$(arg calib_path)"/>
+    <remap from="input/image" to="/stereo/left/image_raw"/>
+    <remap from="input/image" to="/stereo/left/image_raw"/>
+    <remap from="output/image" to="/cam0/right/image_raw"/>
+  </node>
+
+
+  <node name="image_undistort_node_2" pkg="image_undistort" type="image_undistort_node" output="screen" launch-prefix="taskset -c 4-5">
+    <param name="input_camera_namespace" value="cam1"/>
+    <param name="output_camera_namespace" value="cam6"/>
+    <param name="input_camera_info_from_ros_params" value = "true"/>
+    <param name="scale" value="$(arg scale)"/>
+    <param name="process_image" value="1"/>
+    <param name="output_camera_info_source" value="match_input"/>
+    <param name="output_camera_info_source" value="ros_params"/>
+    <rosparam file="$(arg calib_path)"/>
+    <remap from="input/image" to="/stereo/right/image_raw"/>
+    <remap from="input/image" to="/stereo/right/image_raw"/>
+    <remap from="output/image" to="/cam1/left/image_raw"/>
+  </node>
+
+  <node name="image_undistort_node_3" pkg="image_undistort" type="image_undistort_node" output="screen" launch-prefix="taskset -c 4-5">
+    <param name="input_camera_namespace" value="cam1"/>
+    <param name="output_camera_namespace" value="cam7"/>
+    <param name="input_camera_info_from_ros_params" value = "true"/>
+    <param name="scale" value="$(arg scale)"/>
+    <param name="process_image" value="1"/>
+    <param name="output_camera_info_source" value="match_input"/>
+    <param name="output_camera_info_source" value="ros_params"/>
+    <rosparam file="$(arg calib_path)"/>
+    <remap from="input/image" to="/stereo/right/image_raw"/>
+    <remap from="input/image" to="/stereo/right/image_raw"/>
+    <remap from="output/image" to="/cam1/right/image_raw"/>
+  </node>
+
+
+  <node name="image_undistort_node_4" pkg="image_undistort" type="image_undistort_node" output="screen" launch-prefix="taskset -c 4-5">
+    <param name="input_camera_namespace" value="cam3"/>
+    <param name="output_camera_namespace" value="cam8"/>
+    <param name="input_camera_info_from_ros_params" value = "true"/>
+    <param name="scale" value="$(arg scale)"/>
+    <param name="process_image" value="1"/>
+    <param name="output_camera_info_source" value="match_input"/>
+    <param name="output_camera_info_source" value="ros_params"/>
+    <rosparam file="$(arg calib_path)"/>
+    <remap from="input/image" to="/stereo/bright/image_raw"/>
+    <remap from="input/image" to="/stereo/bright/image_raw"/>
+    <remap from="output/image" to="/cam3/left/image_raw"/>
+  </node>
+
+  <node name="image_undistort_node_5" pkg="image_undistort" type="image_undistort_node" output="screen" launch-prefix="taskset -c 4-5">
+    <param name="input_camera_namespace" value="cam3"/>
+    <param name="output_camera_namespace" value="cam9"/>
+    <param name="input_camera_info_from_ros_params" value = "true"/>
+    <param name="scale" value="$(arg scale)"/>
+    <param name="process_image" value="1"/>
+    <param name="output_camera_info_source" value="match_input"/>
+    <param name="output_camera_info_source" value="ros_params"/>
+    <rosparam file="$(arg calib_path)"/>
+    <remap from="input/image" to="/stereo/bright/image_raw"/>
+    <remap from="input/image" to="/stereo/bright/image_raw"/>
+    <remap from="output/image" to="/cam3/right/image_raw"/>
+  </node>
+
+
+  <node name="image_undistort_node_6" pkg="image_undistort" type="image_undistort_node" output="screen" launch-prefix="taskset -c 4-5">
+    <param name="input_camera_namespace" value="cam2"/>
+    <param name="output_camera_namespace" value="cam10"/>
+    <param name="input_camera_info_from_ros_params" value = "true"/>
+    <param name="scale" value="$(arg scale)"/>
+    <param name="process_image" value="1"/>
+    <param name="output_camera_info_source" value="match_input"/>
+    <param name="output_camera_info_source" value="ros_params"/>
+    <rosparam file="$(arg calib_path)"/>
+    <remap from="input/image" to="/stereo/bleft/image_raw"/>
+    <remap from="input/image" to="/stereo/bleft/image_raw"/>
+    <remap from="output/image" to="/cam2/left/image_raw"/>
+  </node>
+
+  <node name="image_undistort_node_7" pkg="image_undistort" type="image_undistort_node" output="screen" launch-prefix="taskset -c 4-5">
+    <param name="input_camera_namespace" value="cam2"/>
+    <param name="output_camera_namespace" value="cam11"/>
+    <param name="input_camera_info_from_ros_params" value = "true"/>
+    <param name="scale" value="$(arg scale)"/>
+    <param name="process_image" value="1"/>
+    <param name="output_camera_info_source" value="match_input"/>
+    <param name="output_camera_info_source" value="ros_params"/>
+    <rosparam file="$(arg calib_path)"/>
+    <remap from="input/image" to="/stereo/bleft/image_raw"/>
+    <remap from="input/image" to="/stereo/bleft/image_raw"/>
+    <remap from="output/image" to="/cam2/right/image_raw"/>
+  </node>
+
+
+</launch>

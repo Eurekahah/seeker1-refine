@@ -1,0 +1,12 @@
+Source: ros-noetic-image-undistort
+Section: misc
+Priority: optional
+Maintainer: Zachary Taylor <ztaylor@ethz.ch>
+Build-Depends: debhelper (>= 9.0.0), ros-noetic-catkin, ros-noetic-cv-bridge, ros-noetic-image-transport, ros-noetic-nodelet, ros-noetic-pcl-ros, ros-noetic-roscpp, ros-noetic-roslib, ros-noetic-sensor-msgs, ros-noetic-tf-conversions
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-noetic-image-undistort
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-noetic-cv-bridge, ros-noetic-image-transport, ros-noetic-nodelet, ros-noetic-pcl-ros, ros-noetic-roscpp, ros-noetic-roslib, ros-noetic-sensor-msgs, ros-noetic-tf-conversions
+Description: Simple image undistorter

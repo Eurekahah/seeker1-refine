@@ -1,0 +1,23 @@
+services:
+  seeker1:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: seeker1:noetic
+    container_name: seeker1
+    init: true
+    privileged: true
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    environment:
+      ROS_MASTER_URI: http://localhost:11311
+      ROS_HOSTNAME: localhost
+      LIBGL_ALWAYS_SOFTWARE: "1"
+    ports:
+      - "11311:11311"
+      - "8080:8080"
+    volumes:
+      - ./:/catkin_ws/src/seeker1
+      - /dev/bus/usb:/dev/bus/usb
+    command: ["bash", "-lc", "exec roscore"]

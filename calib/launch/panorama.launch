@@ -1,0 +1,38 @@
+<launch>
+  <arg name="config" default="/data/local/tmp/kalibr_cam_chain.yaml"/>
+  <arg name="width" default="1280"/>
+  <arg name="height" default="640"/>
+  <arg name="method" default="3"/>
+  <arg name="blend" default="0.4"/>
+  <arg name="radius" default="300"/>
+
+  <node pkg="nodelet" type="nodelet" name="pano_manager" args="manager" output="screen">
+    <param name="num_worker_threads" value="4"/>
+    <env name="OPENCV_OPENCL_RUNTIME" value="disabled"/>
+  </node>
+
+  <node pkg="nodelet" type="nodelet" name="concat_node"
+        args="load image_undistort/ImageConcatNodelet pano_manager" output="screen">
+    <param name="input_camera_info_from_ros_params" value="true"/>
+    <param name="first_camera_namespace" value="cam0"/>
+    <param name="second_camera_namespace" value="cam1"/>
+    <param name="third_camera_namespace" value="cam2"/>
+    <param name="fourth_camera_namespace" value="cam3"/>
+    <param name="approximate_sync" value="true"/>
+    <param name="queue_size" value="5"/>
+    <param name="process_every_nth_frame" value="1"/>
+    <rosparam file="$(arg config)"/>
+
+    <remap from="raw/first/image" to="/fisheye/left/image_raw"/>
+    <remap from="raw/second/image" to="/fisheye/right/image_raw"/>
+    <remap from="raw/third/image" to="/fisheye/bright/image_raw"/>
+    <remap from="raw/fourth/image" to="/fisheye/bleft/image_raw"/>
+    <remap from="rect/image" to="/panorama/image"/>
+
+    <param name="concat_method" value="$(arg method)"/>
+    <param name="concat_width" value="$(arg width)"/>
+    <param name="concat_height" value="$(arg height)"/>
+    <param name="blend_weight" value="$(arg blend)"/>
+    <param name="pano_radius" value="$(arg radius)"/>
+  </node>
+</launch>

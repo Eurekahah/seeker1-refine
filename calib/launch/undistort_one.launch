@@ -1,0 +1,15 @@
+<launch>
+  <arg name="config" default="/data/local/tmp/kalibr_cam_chain_placeholder.yaml"/>
+  <node pkg="nodelet" type="nodelet" name="u_manager" args="manager" output="screen">
+    <env name="OPENCV_OPENCL_RUNTIME" value="disabled"/>
+  </node>
+  <node pkg="nodelet" type="nodelet" name="undistort" args="load image_undistort/ImageUndistortNodelet u_manager" output="screen">
+    <param name="input_camera_info_from_ros_params" value="true"/>
+    <param name="input_camera_namespace" value="cam0"/>
+    <param name="output_camera_info_source" value="match_input"/>
+    <param name="undistort_image" value="true"/>
+    <rosparam file="$(arg config)"/>
+    <remap from="input/image" to="/fisheye/left/image_raw"/>
+    <remap from="output/image" to="/undistorted/image"/>
+  </node>
+</launch>
