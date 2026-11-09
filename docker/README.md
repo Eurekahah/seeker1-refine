@@ -1,5 +1,7 @@
 # Seeker1 Docker 运行说明
 
+> 全景原理、性能与开关命令见 [docs/全景拼接与运行说明.md](../docs/全景拼接与运行说明.md)。
+
 ## 构建和启动
 
 ```powershell
